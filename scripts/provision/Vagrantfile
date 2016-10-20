@@ -46,7 +46,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		ansible.inventory_path = "inventory.ini"
 		ansible.playbook = "main.yml"
 		ansible.limit = "mapstory"
-		#ansible.verbose = "vvv"
+		ansible.verbose = "vvv"
 	end
    else
     config.vm.provision :ansible do |ansible|
@@ -55,7 +55,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		ansible.inventory_path = "inventory.ini"
 		ansible.playbook = "main.yml"
 		ansible.limit = "mapstory"
-		#ansible.verbose = "vvv"
+		ansible.verbose = "vvv"
     end
   end
 

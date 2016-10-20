@@ -1,18 +1,19 @@
 ---
 
 - name: Create database user
-  become_user: postgres
   postgresql_user: name={{db_user}} password={{ db_password }}
   tags: ['db']
 
 - name: Create database
-  become_user: postgres
   postgresql_db:
     name={{ item.key }}
     owner={{ item.value.db_owner}}
     encoding={{ item.value.db_encoding }}
     lc_collate={{ item.value.db_lc_collate }}
     lc_ctype={{ item.value.db_lc_ctype }}
+    login_host={{ db_host }}
+    login_user={{ db_user }}
+    login_password={{ db_password }}
     template={{ item.value.db_template }}
   register: db_created
   when: mapstory_dbs is defined
@@ -20,29 +21,37 @@
   tags: ['db']
 
 - name: Add bigdate UDT
-  become_user: postgres
-  shell: psql -d {{ item.key }} -c "create domain bigdate as bigint"
+  expect:
+    command: psql -h {{ db_host }} -U {{ db_user }} -d {{ item.key }} -c "create domain bigdate as bigint;"
+    responses:
+      (?i)password: "{{ db_password }}"
   when: db_created|changed and mapstory_dbs
   with_dict: "{{ mapstory_dbs|default({}) }}"
   tags: ['db']
 
 - name: Load PostGIS Extension
-  become_user: postgres
-  shell: psql -d  {{ item.key }} -c "CREATE EXTENSION postgis"
+  expect:
+    command: psql -h {{ db_host }} -U {{ db_user }} -d {{ item.key }} -c "CREATE EXTENSION postgis"
+    responses:
+      (?i)password: "{{ db_password }}"
   when: db_created|changed and mapstory_dbs and item.value.db_type == 'spatial'
   with_dict: "{{ mapstory_dbs|default({}) }}"
   tags: ['db']
 
 - name: Load DBLink Extension
-  become_user: postgres
-  shell: psql -d {{ item.key }} -c "CREATE EXTENSION dblink"
+  expect:
+    command: psql -h {{ db_host }} -U {{ db_user }} -d {{ item.key }} -c "CREATE EXTENSION dblink"
+    responses:
+      (?i)password: "{{ db_password }}"
   when: db_created|changed and setup_dblink is defined and setup_dblink and mapstory_dbs
   with_dict: "{{ mapstory_dbs|default({}) }}"
   tags: ['db']
 
 - name: Grant Perms on Spatial Ref Sys
-  become_user: postgres
-  shell: psql -d {{ item.key }} -c "GRANT ALL PRIVILEGES on spatial_ref_sys TO {{db_user}};"
+  expect:
+    command: psql -h {{ db_host }} -U {{ db_user }} -d {{ item.key }} -c "GRANT ALL PRIVILEGES on spatial_ref_sys TO {{db_user}};"
+    responses:
+      (?i)password: "{{ db_password }}"
   when: db_created|changed and mapstory_dbs and item.value.db_type == 'spatial'
   with_dict: "{{ mapstory_dbs|default({}) }}"
   tags: ['db']
@@ -51,15 +60,16 @@
   tags: ['db']
 
 - name: load geonode_authorize_layers
-  become_user: postgres
-  shell: psql -f /tmp/geonode_authorize_layer.sql -d mapstory
+  expect:
+    command: psql -h {{ db_host }} -U {{ db_user }} -d {{ db_name }} -f /tmp/geonode_authorize_layer.sql
+    responses:
+      (?i)password: "{{ db_password }}"
   tags: ['db']
 
 - file: path=/tmp/geonode_authorize_layer.sql state=absent
   tags: ['db']
 
 - name: Grant mapstory SUPERUSER for local testing.
-  become_user: postgres
-  shell: psql -c  "alter user mapstory superuser"
+  shell: psql -h {{ db_host }} -U {{ db_user }} -d {{ db_name }} -c  "alter user mapstory superuser"
   when: env == 'vagrant'
   tags: ['db']
