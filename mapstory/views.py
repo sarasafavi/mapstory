@@ -59,7 +59,8 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth import get_user_model
 
-from geonode.tasks.deletion import delete_mapstory, delete_layer
+from tasks.deletion import delete_mapstory
+from geonode.tasks.deletion import delete_layer
 from provider.oauth2.models import AccessToken
 from django.utils.timezone import now as provider_now
 from account.conf import settings as account_settings
