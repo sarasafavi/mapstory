@@ -68,7 +68,6 @@ INSTALLED_APPS += (
     'mapstory',
     'django.contrib.webdesign',
     'geonode.contrib.geogig',
-    'geonode.contrib.collections',
     'geonode.contrib.favorite',
     'icon_commons',
     'maploom',
@@ -88,6 +87,7 @@ INSTALLED_APPS += (
     'health_check_db',
     'health_check_storage',
     'mapstory.apps.health_check_geoserver',
+    'mapstory.apps.collections',
 )
 
 # Adding Threaded Comments app

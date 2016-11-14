@@ -24,7 +24,7 @@ from django import db
 from .importers import GeoServerLayerCreator
 from osgeo_importer.utils import UploadError
 from geonode.groups.models import GroupProfile
-from geonode.contrib.collections.models import Collection
+from mapstory.apps.collections.models import Collection
 from datetime import datetime
 from .models import Sponsor
 

@@ -35,7 +35,7 @@ from mapstory.models import Leader
 from mapstory.models import ThumbnailImage, ThumbnailImageForm
 from icon_commons.models import Icon
 from geonode.contrib.favorite.models import Favorite
-from geonode.contrib.collections.models import Collection
+from mapstory.apps.collections.models import Collection
 from geonode.geoserver.helpers import ogc_server_settings
 from urlparse import urlsplit
 from user_messages.models import Thread
