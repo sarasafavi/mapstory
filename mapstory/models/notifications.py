@@ -1,0 +1,4 @@
+from mapstory.notifications import set_mapstory_notifications
+
+
+set_mapstory_notifications()

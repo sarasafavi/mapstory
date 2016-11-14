@@ -14,9 +14,10 @@ from agon_ratings.models import Rating
 from geonode.tasks.email import send_queued_notifications
 from geonode.people.models import Profile
 from geonode.contrib.favorite.models import Favorite
-from geonode.maps.models import Map, MapStory
+from geonode.maps.models import Map
 from geonode.layers.models import Layer
 
+from mapstory.models.maps import MapStory
 from mapstory.apps.flag.models import FlagInstance
 
 PROFILE_NOTICE_SETTINGS = ['layer_comment', 'layer_rated', 'layer_favorited', 'layer_flagged',

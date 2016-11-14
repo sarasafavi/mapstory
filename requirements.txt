@@ -77,7 +77,7 @@ django-treebeard==3.0
 urllib3==1.16
 
 # GeoNode official release
-GeoNode==2.5.5
+geonode==2.5.5
 
 # Enhance Django's shell
 ipython==5.0.0

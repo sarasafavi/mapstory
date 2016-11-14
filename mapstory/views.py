@@ -22,7 +22,7 @@ from geonode.layers.views import _resolve_layer
 from geonode.layers.views import _PERMISSION_MSG_GENERIC, _PERMISSION_MSG_VIEW, _PERMISSION_MSG_DELETE
 from geonode.people.models import Profile
 from geonode.maps.views import snapshot_config, _PERMISSION_MSG_SAVE
-from geonode.maps.models import Map, MapStory
+from geonode.maps.models import Map
 from httplib import HTTPConnection, HTTPSConnection
 from mapstory import tasks
 from mapstory.importers import GeoServerLayerCreator
@@ -84,6 +84,9 @@ from mapstory.search.utils import update_es_index
 from django.http import HttpResponse, HttpResponseServerError
 from django.template import loader
 from health_check.plugins import plugin_dir
+
+from mapstory.models.maps import MapStory
+
 
 
 class IndexView(TemplateView):

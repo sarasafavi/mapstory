@@ -2,16 +2,17 @@ from django.contrib import admin
 
 from django import forms
 
-from mapstory.models import Sponsor
-from mapstory.models import Community
-from mapstory.models import NewsItem
-from mapstory.models import DiaryEntry
-from mapstory.models import GetPage
-from mapstory.models import GetPageContent
-from mapstory.models import Leader
-from mapstory.models import ParallaxImage
-from mapstory.models import Task
-from mapstory.models import CustomSite
+from mapstory.models.sponsor import Sponsor
+from mapstory.models.community import Community
+from mapstory.models.community import Task
+from mapstory.models.news_item import NewsItem
+from mapstory.models.diary import DiaryEntry
+from mapstory.models.get_page import GetPage
+from mapstory.models.get_page import GetPageContent
+from mapstory.models.leader import Leader
+from mapstory.models.parallax import ParallaxImage
+
+from mapstory.models.custom_site import CustomSite
 
 from mapstory.export import export_via_model
 
