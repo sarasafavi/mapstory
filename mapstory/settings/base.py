@@ -488,3 +488,14 @@ NOSE_ARGS = [
 # Override number of results per page listed in the GeoNode search pages
 CLIENT_RESULTS_LIMIT = 30
 
+# Replacement of default authentication backend in order to support
+# permissions per object.
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
+)
+
+ANONYMOUS_USER_ID = -1
+GUARDIAN_GET_INIT_ANONYMOUS_USER = 'geonode.people.models.get_anonymous_user_instance'
+
+
