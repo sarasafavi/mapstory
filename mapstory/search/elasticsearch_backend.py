@@ -3,10 +3,9 @@ from haystack.exceptions import MissingDependency
 from haystack.utils import get_identifier
 from geonode.base.models import ResourceBase
 
+
 try:
     import elasticsearch
-    from elasticsearch.helpers import bulk_index
-    from elasticsearch.exceptions import NotFoundError
 except ImportError:
     raise MissingDependency("The 'elasticsearch' backend requires the installation of 'elasticsearch'. Please refer to the documentation.")
 
