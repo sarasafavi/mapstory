@@ -72,16 +72,4 @@ class EditProfileForm(forms.ModelForm):
         model = Profile
         fields = ['first_name', 'last_name', 'keywords', 'city', 'country', 'profile', 'education', 'expertise', 'social_twitter', 'social_facebook', 'social_linkedin', 'social_github', 'Volunteer_Technical_Community']
 
-# Organization forms
-class OrganizationForm(GroupForm):
 
-    class Meta:
-        model = GroupProfile
-        exclude = ['group', 'profile_type', 'tasks', 'featured']
-
-
-class OrganizationUpdateForm(GroupUpdateForm):
-
-    class Meta:
-        model = GroupProfile
-        exclude = ['group', 'profile_type', 'tasks', 'featured']

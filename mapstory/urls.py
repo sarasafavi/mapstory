@@ -22,8 +22,6 @@ from geonode.geoserver.views import layer_acls, resolve_user, layer_batch_downlo
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import RedirectView
 from osgeo_importer.urls import urlpatterns as importer_urlpatterns
-from mapstory.views import organization_create, organization_edit, organization_detail, organization_members
-from mapstory.views import organization_invite, organization_members_add, organization_member_remove
 from mapstory.views import initiative_create, initiative_edit, initiative_detail, initiative_members
 from mapstory.views import initiative_invite, initiative_members_add, initiative_member_remove
 from tastypie.api import Api
@@ -85,13 +83,7 @@ urlpatterns = patterns('',
     url(r"^storyteller/edit/(?P<username>[^/]*)/set-notification$", set_profile_notification, name="set_profile_notification"),
 
 
-    url(r'^organizations/create/$', organization_create, name='organization_create'),
-    url(r'^organizations/(?P<slug>[^/]*)$', organization_detail, name='organization_detail'),
-    url(r'^organizations/edit/(?P<slug>[^/]*)$', organization_edit, name='organization_edit'),
-    url(r'^organizations/members/(?P<slug>[^/]*)$', organization_members, name='organization_members'),
-    url(r'^organizations/invite/(?P<slug>[^/]*)$', organization_invite, name='organization_invite'),
-    url(r'^organizations/(?P<slug>[^/]*)/members_add/$', organization_members_add, name='organization_members_add'),
-    url(r'^organizations/(?P<slug>[^/]*)/member_remove/(?P<username>.+)$', organization_member_remove, name='organization_member_remove'),
+    url(r'^journal/', include('mapstory.organizations.urls')),
     url(r'^initiatives/create/$', initiative_create, name='initiative_create'),
     url(r'^initiatives/(?P<slug>[^/]*)$', initiative_detail, name='initiative_detail'),
     url(r'^initiatives/edit/(?P<slug>[^/]*)$', initiative_edit, name='initiative_edit'),
