@@ -75,7 +75,7 @@
             <div class="container">
                 <nav id="filter" class="col-md-12 text-center">
                     <ul id="categories" class="nav nav-tabs">
-                        <li><a ng-click="query_category();" class="btn btn-filter btn-sm sectionTab">{% trans "All Categories" %}</a></li>
+                        <li><a ng-click="reset();" class="btn btn-filter btn-sm sectionTab">{% trans "All Categories" %}</a></li>
                         {% verbatim %}
                             <li ng-repeat="category in categories">
                                 <a ng-click="query_category(category.identifier);" class="btn btn-filter btn-sm sectionTab">{{ category.gn_description }}</a>
@@ -90,25 +90,19 @@
         </section>
         <section class="slice results">
             <div class="container">
-                <div ng-if="results.length">
-                    <slick infinite="true" slides-to-show="3" autoplay="true" init-onload="true" data="results">
-                        <div class="col-md-4" ng-repeat="item in results">
+                <div ng-if="display.length">
+                    <slick infinite="true" slides-to-show="4" autoplay="true" init-onload="true" data="display">
+                        <div class="col-md-3 col-sm-6 col-xs-12" ng-repeat="item in display">
                             {% verbatim %}
                                 <a href="{{ item.detail_url }}">
                                     <img class="thumb img-responsive" ng-src="{{ item.thumbnail_url }}" style="margin: auto;"/>
                                 </a>
                                 <h3>
                                     <a href="{{ item.detail_url }}">{{ item.title }}</a>
+
+                                    <span ng-if="item.owner__first_name" class="owner"> by {{ item.owner__first_name }}{{item.owner__last_name}}</span>
                                 </h3>
-                                <h5 class="abstract">{{ item.abstract|limitTo:250  }}
-                                <a href="{{ item.detail_url }}">
-                                <i>...
-                            {% endverbatim %}
-                            {% trans "read more" %}
-                            {% verbatim %}</i>
-                                </a>
-                                </h5>
-                                <h4><span class="owner">{{ item.owner.username }}</span></h4>
+                                <!-- <h4><span class="owner"> by {{ item.owner__username }}</span></h4> -->
                             {% endverbatim %}
                         </div>
                     </slick>

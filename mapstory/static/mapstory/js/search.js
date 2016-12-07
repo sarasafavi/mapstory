@@ -190,7 +190,7 @@
     };
     //used in what's-hot for switching to featured and profile
     $scope.change_api = function(api_endpoint) {
-      Configs.url = "/api/" + api_endpoint + "/";
+      $scope.api_endpoint = "/api/" + api_endpoint + "/";
       $scope.query.limit = CLIENT_RESULTS_LIMIT;
       $scope.query.offset = 0;
       return query_api($scope.query).then(function(result) {

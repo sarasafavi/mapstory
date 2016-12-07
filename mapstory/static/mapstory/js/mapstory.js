@@ -4,7 +4,8 @@
     angular.module('mapstory', [
         'osgeoImporter.uploader',
         'ui.bootstrap',
-        'geonode_main_search'
+        'geonode_main_search',
+        'slick'
     ], function($locationProvider) {
          if (window.navigator.userAgent.indexOf("MSIE") == -1){
           $locationProvider.html5Mode({
@@ -178,63 +179,68 @@
 .controller('featured_carousel', function($injector, $scope, $http){
   $scope.query = {};
   $scope.query['is_published'] = true;
-  $scope.query['featured'] = true;
+  //$scope.query['featured'] = true;
 
+  // $scope.all = {'is_published': true, limit: 30};
   //set query limit for number of featured items desired for carousel
-  $scope.query.limit = $scope.query.limit || CLIENT_RESULTS_LIMIT;
+  $scope.query.limit = 64;
 
-  $scope.search = function() {
-    return query_api($scope.query).then(function(result) {
-      return result;
-    });
-  };
+  // $scope.search = function() {
+  //   return query_api($scope.query).then(function(result) {
+  //     return result;
+  //   });
+  // };
 
   //Get data from apis and make them available to the page
   function query_api(data){
     return $http.get('/api/base/search/', {params: data || {}}).success(function(data){
-      $scope.results = data.objects;
-      $scope.total_counts = data.meta.total_count;
-      $scope.$root.query_data = data;
+      //debugger;
+      $scope.results = $scope.display = data.objects;
 
       // Initialize carousel display
-      $scope.display = [];
-      $scope.indeces = [];
-      for (var i = 0; i < $scope.results.length; i++) {
-        $scope.display[i] = $scope.results[i];
-        $scope.indeces[i] = i;
-        if (i >= 3) {
-            break;
-        }
-      }
+      // $scope.display = [];
+      // $scope.indeces = [];
+      // for (var i = 0; i < $scope.results.length; i++) {
+      //   $scope.display[i] = $scope.results[i];
+      //   $scope.indeces[i] = i;
+      //   if (i >= 3) {
+      //       break;
+      //   }
+      //}
     });
   };
 
-  $scope.query_category = function(category) {
-    //does not require 'type' like in main search controller
-    $scope.query.category__identifier__in = category;
-    $scope.search();
+  $scope.reset = function(){
+    $scope.display = $scope.results;
+  }
+
+  $scope.query_category = function(categoryFilter) {
+    $scope.display = _.where($scope.results,{category: categoryFilter} )
+    // //does not require 'type' like in main search controller
+    // $scope.query.category__identifier__in = category;
+    // $scope.search();
   };
 
   // carousel
-  $scope.slideLeft = function() {
-    for (var i = 0; i < $scope.indeces.length; i++) {
-      $scope.indeces[i] = ($scope.indeces[i] + 1) % $scope.results.length;
-    }
-    $scope.updateDisplay();
-  };
+  // $scope.slideLeft = function() {
+  //   for (var i = 0; i < $scope.indeces.length; i++) {
+  //     $scope.indeces[i] = ($scope.indeces[i] + 1) % $scope.results.length;
+  //   }
+  //   $scope.updateDisplay();
+  // };
 
-  $scope.slideRight = function() {
-    for (var i = 0; i < $scope.indeces.length; i++) {
-      $scope.indeces[i] = ($scope.indeces[i] - 1 + $scope.results.length) % $scope.results.length;
-    }
-    $scope.updateDisplay();
-  };
+  // $scope.slideRight = function() {
+  //   for (var i = 0; i < $scope.indeces.length; i++) {
+  //     $scope.indeces[i] = ($scope.indeces[i] - 1 + $scope.results.length) % $scope.results.length;
+  //   }
+  //   $scope.updateDisplay();
+  // };
 
-  $scope.updateDisplay = function() {
-    for (var i = 0; i < $scope.indeces.length; i++) {
-      $scope.display[i] = $scope.results[$scope.indeces[i]];
-    };
-  }
+  // $scope.updateDisplay = function() {
+  //   for (var i = 0; i < $scope.indeces.length; i++) {
+  //     $scope.display[i] = $scope.results[$scope.indeces[i]];
+  //   };
+  // }
 
   query_api($scope.query);
 })

@@ -12,7 +12,7 @@
             <a> <i class="fa fa-cubes"></i> Search for Content </a>
           </span>
           <span id="user-search" class="input-group-addon" ng-click="toggle_content(); search();">
-            <a> <i class="fa fa-users"></i> Search for Storytellers </a>
+            <a> <i class="fa fa-users"></i> Browse User Directory </a>
           </span>
         </div>
      </div>
@@ -35,7 +35,7 @@
             <div class="clearfix search-results">
                 <ul>
                     {% verbatim %}
-                    <li ng-repeat="item in results | orderBy: orderMethod" resource-id="{{ item.id }}" class="col-lg-4 col-sm-6 flip-container resource-{{ item.id }}" ng-if="((item.type === 'mapstory' || item.type === 'layer') && (item.is_published == true || item.owner__username  == django.user))">
+                    <li ng-repeat="item in results | orderBy: orderMethod" resource-id="{{ item.id }}" class="col-lg-4 col-sm-6 flip-container resource-{{ item.id }}" ng-if="item.type === 'mapstory' || item.type === 'layer'">
                     {% endverbatim %}
                     {% include 'search/_result_content.html' %}
                 </ul>
@@ -46,19 +46,30 @@
     {% comment %} Search for Storytellers {% endcomment %}
     <div ng-show="api_endpoint == '/api/owners/'">
         <div class="col-sm-3 border-right search-side">
-            {% include 'search/_refine_profiles.html' %}
-        </div>
-        <div class="col-sm-9">
-            <nav class="filter">
                 <div class="input-group search-bar">
                     <input name="user_search_input" id="user_search_input" ng-model="query.q" type="text"
                         class="form-control" ng-enter="search()">
                     <span class="input-group-btn">
-                        <button class="btn btn-primary" type="submit" ng-click="search()" ng-class="{'disabled': !query.q}" id="user_search_btn"><i class="fa fa-search"></i> Search</button>
+                        <button class="btn btn-primary" type="submit" ng-click="search()" ng-class="{'disabled': !query.q}" id="user_search_btn"><i class="fa fa-search"></i></button>
                     </span>
                 </div>
+            <a href="" ng-click="set_query('order_by', '-date_joined');"> Recently Joined</a>
+            <a href="" ng-click="set_query('order_by', '-first_name');"> first_name</a>
+            <a href="" ng-click="set_query('order_by', '-username');"> -username</a>
+
+                        <a href="" ng-click="change_api('profiles'); ">
+                <i class="fa fa-group"></i> Most Active Users
+            </a>
+
+
+            <p> Interests </p>
+             <input type="text" class="form-control" id="tokenfield-interest"/>
+        
+        </div>
+        <div class="col-sm-9">
+            <nav class="filter">
+
             </nav>
-            {% include 'search/_sort_filters_users.html' %}
             <div class="clearfix user search-results">
                 <ul>{% include 'search/_result_users.html' %}</ul>
             </div>
