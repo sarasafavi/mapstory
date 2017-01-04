@@ -7,7 +7,7 @@ from geonode.urls import urlpatterns
 from maploom.geonode.urls import urlpatterns as maploom_urls
 from mapstory.views import IndexView
 from mapstory.views import GetPageView
-from mapstory.views import ProfileDetail, profile_delete, profile_edit
+from mapstory.views import ProfileDetail, profile_delete, profile_edit, thread_delete2
 from mapstory.views import SearchView
 from mapstory.views import LeaderListView
 from mapstory.views import proxy
@@ -129,7 +129,11 @@ urlpatterns += importer_urlpatterns
 
 #this is last to catch reverse lookup from geonode views
 urlpatterns += patterns("",url(r"^storyteller/(?P<slug>[^/]*)/$", ProfileDetail.as_view(), name="profile_detail"),
-                            url(r'^story/(?P<mapid>\d+)/remove$', map_remove, name='map_remove'))
+                            url(r'^story/(?P<mapid>\d+)/remove$', map_remove, name='map_remove'),
+                            url(r"^messages/thread/(?P<thread_id>\d+)/delete/$", thread_delete2,
+        name="messages_thread_delete2"),
+                            #url(r"^storyteller/(?P<slug>[^/]*)/$", ProfileDetail.as_view(), name="messages_inbox"),
+                            )
 
 
 if settings.DEBUG:

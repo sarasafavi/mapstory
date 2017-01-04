@@ -1207,3 +1207,11 @@ def account_verify(request):
 def layer_detail_id(request, layerid):
     layer = get_object_or_404(Layer, pk=layerid)    
     return layer_detail(request, layer.typename)
+
+def thread_delete2(request, thread_id):
+    import ipdb;ipdb.set_trace()
+    qs = Thread.objects.filter(userthread__user=request.user)
+    thread = get_object_or_404(qs, pk=thread_id)
+    thread.userthread_set.filter(user=request.user).update(deleted=True)
+    return HttpResponseRedirect(reverse("profile_detail", kwargs={'slug': request.user}))
+
